@@ -7,6 +7,8 @@ This documentation assumes your hg hooks are located in `~/.hg/hooks/`.
 ### Dependencies
 * [hglib](https://www.mercurial-scm.org/wiki/PythonHglib)
 
+TIP: To install on a mac, run `sudo easy_install python-hglib`
+
 ## Append-Jira-Commit-Message
 **`.hgrc` configuration**
 ```
