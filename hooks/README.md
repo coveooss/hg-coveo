@@ -1,5 +1,3 @@
-[TOC]
-
 # Hg Hooks
 
 This documentation assumes your hg hooks are located in `~/.hg/hooks/`.
