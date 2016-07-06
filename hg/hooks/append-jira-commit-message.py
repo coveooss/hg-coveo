@@ -31,11 +31,7 @@ a link to the Jira is appended to commit messages.
         return cfg[2]
 
     try:
-        jiraProject = getConfig("jira.project")
         jiraUrlBase = getConfig("jira.url")
-        
-        # the regex is a bit lenient to allow e.g. JIRA-123_patch1
-        jiraRegex = re.compile("""^{}-\d+""".format(jiraProject))
     except MissingConfig as err:
         print("ERROR: {}".format(err))
         printHelp()
@@ -52,19 +48,28 @@ a link to the Jira is appended to commit messages.
     def rewrite_ctx(ctx, error):
         branch_name = ctx.branch()
         commitMessage = ctx._text
-        match = jiraRegex.match(branch_name)
-        if match:
-            commitMessage = format_message(commitMessage, match.group(0), "branch name")
+
+        found = extract_project_and_id(branch_name)
+        if found:
+            commitMessage = format_message(commitMessage, found, "branch name")
         else:
             bookmarks, active = client.bookmarks()
             if active != -1:
                 bookmark_name = bookmarks[active][0]
-                match = jiraRegex.match(branch_name)
-                if match:
-                    commitMessage = format_message(commitMessage, match.group(0), "bookmark name")
+                found = extract_project_and_id(bookmark_name)
+                if found:
+                    commitMessage = format_message(commitMessage, found, "bookmark name")
         
         ctx._text = commitMessage            
         return commitctx(ctx, error)
+
+    def extract_project_and_id(message):
+        jiraRegex = re.compile("""^[A-Z]+-\d+""")
+        match = jiraRegex.match(message)
+        if match:
+            return match.group(0)
+        else:
+            return None
  
     repo.commitctx = rewrite_ctx
  
