@@ -10,7 +10,7 @@ class MissingConfig(Exception):
 
 def append_jira_commit_message(repo, **kwargs):
     commitctx = repo.commitctx
-    client = hglib.open('.')
+    client = hglib.open()
 
     def print_help():
         print(textwrap.dedent("""

@@ -5,7 +5,7 @@ import hglib
 
 def append_jira_key_commit_message(repo, **kwargs):
     commitctx = repo.commitctx
-    client = hglib.open('.')
+    client = hglib.open()
 
     def format_message(message, jira_key, whence):
         if jira_key in message:
