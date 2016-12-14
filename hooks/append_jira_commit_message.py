@@ -22,7 +22,6 @@ def append_jira_commit_message(repo, **kwargs):
 
             .hgrc configuration:
                 [jira]
-                jira.project = Jira project name, e.g. JIRA
                 jira.url = Jira base url, e.g. https://jira.atlassian.com/browse/
             """))
 
