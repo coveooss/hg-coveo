@@ -68,12 +68,42 @@ def append_jira_commit_message(repo, **kwargs):
         ctx._text = commit_message
         return commitctx(ctx, error)
 
-    def extract_project_and_id(message):
-        jira_regex = re.compile(r"^[A-Z]+-\d+")
-        match = jira_regex.match(message)
-        if match:
-            return match.group(0)
-        else:
-            return None
-
     repo.commitctx = rewrite_ctx
+
+
+def extract_project_and_id(message):
+    """Extract project name and numerical ID from a message, when it immediately starts the message or is prefixed
+    by any string ended by a slash.
+
+    Args:
+        message (str): The message to match.
+
+    Returns:
+        str: The project name and ID in format NAME-ID if found, and an empty string otherwise.
+
+    Examples:
+        >>> extract_project_and_id("ABC-123-branch-name")
+        'ABC-123'
+
+        >>> extract_project_and_id("feature/ABC-123-branch-name")
+        'ABC-123'
+
+        >>> extract_project_and_id("fix/ABC-123-branch-name")
+        'ABC-123'
+
+        >>> extract_project_and_id("branch-name")
+        ''
+
+        >>> extract_project_and_id("abc-123-branch-name")
+        ''
+
+        >>> extract_project_and_id("branch-name-ABC-123")
+        ''
+
+    """
+    jira_regex = re.compile(r"^(.*/)?[A-Z]+-\d+")
+    match = jira_regex.match(message)
+    if match:
+        return match.group(0).split('/')[-1]
+    else:
+        return ''
