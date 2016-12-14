@@ -1,5 +1,4 @@
 import re
-import sys
 import textwrap
 import hglib
 
@@ -7,16 +6,6 @@ import hglib
 def append_jira_key_commit_message(repo, **kwargs):
     commitctx = repo.commitctx
     client = hglib.open('.')
-
-    def print_help():
-        print(textwrap.dedent("""
-            Append a Jira key to commit messages.
-
-            If the current branch (or bookmark) has a key that matches
-            the Jira project, and if the commit message doesn't already
-            contain the project and ID, add the JIRA key to the commit
-            message.
-            """))
 
     def format_message(message, jira_key, whence):
         if jira_key in message:
