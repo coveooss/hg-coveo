@@ -13,7 +13,7 @@ Appends a JIRA link to the commit message.
 **`.hgrc` configuration**
 ```
 [hooks]
-precommit = python:~/.hg/hooks/append-jira-commit-message.py:append_jira_commit_message
+precommit = python:~/.hg/hooks/append_jira_commit_message.py:append_jira_commit_message
 
 [jira]
 jira.url = https://coveord.atlassian.net/browse
