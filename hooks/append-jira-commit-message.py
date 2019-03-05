@@ -1,4 +1,4 @@
-import re,os,sys,mercurial,hglib
+import re,os,sys,hglib
 
 class MissingConfig(Exception):
     pass
