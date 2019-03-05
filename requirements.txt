@@ -1,2 +1,1 @@
-mercurial
 python-hglib
